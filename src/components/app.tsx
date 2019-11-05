@@ -1,7 +1,6 @@
 import * as React from 'react';
-import { List } from './list';
-import { AddItem } from './add-item';
-import { append } from 'ramda';
+import { WordManagePage } from './pages';
+import append from 'ramda/es/append';
 
 const initWords = [
   "assoir",
@@ -15,13 +14,13 @@ const initWords = [
   "aimer"
 ];
 
+import 'onsenui/css/onsenui-core.css';
+import 'onsenui/css/onsen-css-components.min.css';
+
 export const App = () => {
   const [words, setWords] = React.useState(initWords);
 
   return (
-    <>
-      <AddItem onAdd={(word: string) => setWords(append(word, words))} />
-      <List words={words} />
-    </>
+    <WordManagePage words={words} addWord={(word: string) => setWords(append(word, words))} />
   );
 };

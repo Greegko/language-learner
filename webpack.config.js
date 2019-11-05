@@ -27,11 +27,18 @@ module.exports = {
         loader: "source-map-loader"
       },
       {
-        test: /\.s[ac]ss$/i,
+        test: /\.sass$/i,
         use: [
           'style-loader',
           'css-loader',
           'sass-loader',
+        ],
+      },
+      {
+        test: /\.css$/i,
+        use: [
+          'style-loader',
+          'css-loader',
         ],
       },
     ]

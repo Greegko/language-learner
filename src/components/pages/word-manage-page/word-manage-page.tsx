@@ -1,16 +1,9 @@
 import * as React from 'react';
-import { List } from './list';
-import { AddItem } from './add-item';
 import { Page } from 'react-onsenui';
+import { SearchList } from './search-list';
 
-interface WordManagePageProps {
-  words: string[];
-  addWord: (word: string) => void;
-}
-
-export const WordManagePage = ({ words, addWord }: WordManagePageProps) => (
+export const WordManagePage = () => (
   <Page>
-    <AddItem onAdd={(word: string) => addWord(word)} />
-    <List words={words} />
+    <SearchList />
   </Page>
 );

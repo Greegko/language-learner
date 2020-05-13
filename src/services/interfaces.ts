@@ -1,4 +1,9 @@
-enum Language { English, French };
+export enum Language { English, French };
+
+export interface AutocompleteWord {
+  word: string;
+  language: Language;
+}
 
 export interface Word {
   word: string;

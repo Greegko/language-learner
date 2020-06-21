@@ -1,7 +1,5 @@
 import * as React from 'react';
 
 export const App = () => {
-  return (
-    "Hello"
-  );
+  return <div>Hello</div>;
 };

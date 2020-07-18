@@ -8,23 +8,24 @@
     "start": "webpack-dev-server"
   },
   "dependencies": {
-    "@types/ramda": "0.27.4",
-    "@types/react": "16.9.35",
+    "@types/ramda": "0.27.11",
+    "@types/react": "16.9.43",
     "@types/react-dom": "16.9.8",
-    "@types/react-onsenui": "2.9.12",
-    "css-loader": "3.5.3",
+    "@types/shortid": "0.0.29",
+    "css-loader": "3.6.0",
     "html-webpack-plugin": "4.3.0",
     "node-sass": "4.14.1",
     "ramda": "0.27.0",
     "react": "16.13.1",
     "react-dom": "16.13.1",
-    "sass-loader": "8.0.2",
-    "source-map-loader": "0.2.4",
+    "sass-loader": "9.0.2",
+    "shortid": "2.2.15",
+    "source-map-loader": "1.0.1",
     "style-loader": "1.2.1",
-    "ts-loader": "7.0.4",
-    "typescript": "3.9.2",
+    "ts-loader": "8.0.1",
+    "typescript": "3.9.7",
     "webpack": "4.43.0",
-    "webpack-cli": "3.3.11",
+    "webpack-cli": "3.3.12",
     "webpack-dev-server": "3.11.0"
   }
 }

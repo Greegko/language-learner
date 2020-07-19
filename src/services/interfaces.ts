@@ -17,14 +17,7 @@ export interface WordTranslation {
 }
 
 export enum TrainingType { Learn };
-
-export type TrainingID = string;
-
-export interface Training {
-  id: TrainingID;
-  records: TrainingRecord[];
-  date: Date;
-}
+export enum LearnRecordResult { Learned, Easy, Medium, Hard };
 
 export interface TrainingRecord {
   word: WordID;
@@ -34,4 +27,5 @@ export interface TrainingRecord {
 
 export interface TrainingLearnRecord extends TrainingRecord {
   type: TrainingType.Learn;
+  result: LearnRecordResult;
 }

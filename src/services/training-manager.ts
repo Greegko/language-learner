@@ -1,20 +1,30 @@
-import { Training } from "./interfaces";
-import { TrainingSession } from "./training-session";
-import { WordsManager } from "./words-manager";
+import { head } from "ramda";
+
+import { TrainingType, Word, TrainingRecord } from "./interfaces";
+import { Storage } from "./storage";
+
+type TrainingTask = { word: Word, trainingType: TrainingType };
 
 export class TrainingManager {
 
-  constructor(private wordsManager: WordsManager) { }
+  constructor(private storage: Storage) { }
 
-  startNewTraining(): TrainingSession {
-    const words = this.wordsManager.getWords().slice(0, 10);
-    const wordIds = words.map(x => x.id);
+  getTask(): TrainingTask {
+    return {
+      word: head(this.storage.getWords()),
+      trainingType: TrainingType.Learn
+    }
+  }
 
-    const session = new TrainingSession(wordIds);
+  solveTask() {
+    const task = this.getTask();
+    const trainingRecord: TrainingRecord = {
+      word: task.word.id,
+      date: new Date(),
+      type: TrainingType.Learn
+    }
 
-    session.start();
-
-    return session;
+    this.storage.addTrainingRecord(trainingRecord);
   }
 
 }

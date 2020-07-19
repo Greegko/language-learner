@@ -1,9 +1,9 @@
-import { adjust, __, merge, append } from "ramda";
+import { append } from "ramda";
 
-import { Training, Word, WordID } from "./interfaces";
+import { Word, TrainingRecord } from "./interfaces";
 
 interface StorageData {
-  trainings: Training[];
+  trainingRecords: TrainingRecord[];
   words: Word[];
 }
 
@@ -20,29 +20,24 @@ export class Storage {
     if (parsedData) {
       this.data = parsedData;
     } else {
-      this.data = { trainings: [], words: [] };
+      this.data = { trainingRecords: [], words: [] };
     }
   }
 
-  getTrainings(): Training[] {
-    return this.data.trainings;
+  getTrainingRecords(): TrainingRecord[] {
+    return this.data.trainingRecords;
   }
 
   getWords(): Word[] {
     return this.data.words;
   }
 
-  addTraining(training: Training) {
-    this.data.trainings = append(training, this.data.trainings);
+  addTrainingRecord(trainingRecord: TrainingRecord) {
+    this.data.trainingRecords = append(trainingRecord, this.data.trainingRecords);
   }
 
   addWord(word: Word) {
     this.data.words = append(word, this.data.words);
-  }
-
-  updateWord(wordId: WordID, word: Word) {
-    const wordIndex = this.data.words.findIndex(x => x.id === wordId);
-    this.data.words = adjust(wordIndex, merge(__, word), this.data.words);
   }
 
 } 

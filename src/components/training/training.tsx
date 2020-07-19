@@ -1,26 +1,22 @@
 import * as React from 'react';
 
-import { TrainingSession, WordsManager } from '../../services';
+import { TrainingManager } from '../../services';
 
 import { LearningCard } from './learning-card';
 
 interface TrainingParams {
-  session: TrainingSession;
-  wordsManager: WordsManager;
+  trainingManager: TrainingManager;
 }
 
-export const Training = ({ session, wordsManager }: TrainingParams) => {
-
-  const task = session.getActiveTask();
+export const Training = ({ trainingManager }: TrainingParams) => {
+  const task = trainingManager.getTask();
 
   if (!task) {
     return <div>No remaining words!</div>;
   }
 
-  const word = wordsManager.getWord(task.word);
+  const solve = () => trainingManager.solveTask();
 
-  const solve = () => session.solveActiveTask();
-
-  return <LearningCard solve={solve} word={word} />;
+  return <LearningCard solve={solve} word={task.word} />;
 }
 

@@ -16,16 +16,22 @@ export interface WordTranslation {
   example?: Example;
 }
 
-export enum TrainingType { Learn };
-export enum LearnRecordResult { Learned, Easy, Medium, Hard };
+export enum TrainingType { Discovery, Review };
+export enum ReviewResult { Learned, Easy, Medium, Hard };
 
-export interface TrainingRecord {
+interface TrainingRecordBase {
   word: WordID;
   date: Date;
   type: TrainingType;
 }
 
-export interface TrainingLearnRecord extends TrainingRecord {
-  type: TrainingType.Learn;
-  result: LearnRecordResult;
+export interface TrainingDiscovery extends TrainingRecordBase {
+  type: TrainingType.Discovery;
 }
+
+export interface TrainingReviewRecord extends TrainingRecordBase {
+  type: TrainingType.Review;
+  result: ReviewResult;
+}
+
+export type TrainingRecord = TrainingReviewRecord | TrainingDiscovery;

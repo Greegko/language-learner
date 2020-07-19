@@ -12,7 +12,7 @@ export class TrainingManager {
   getTask(): TrainingTask {
     return {
       word: head(this.storage.getWords()),
-      trainingType: TrainingType.Learn
+      trainingType: TrainingType.Discovery
     }
   }
 
@@ -21,7 +21,7 @@ export class TrainingManager {
     const trainingRecord: TrainingRecord = {
       word: task.word.id,
       date: new Date(),
-      type: TrainingType.Learn
+      type: TrainingType.Discovery
     }
 
     this.storage.addTrainingRecord(trainingRecord);

@@ -22,8 +22,6 @@ export const LearningCard = ({ word, solve }: TrainingLearnCardParams) => {
   const translation = head(word.translations);
   const example = translation.example;
 
-  console.log(translation, example);
-
   return (
     <div>
       <audio src={getAudioUrl(word.word)} ref={refAudioWord} />

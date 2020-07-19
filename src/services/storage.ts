@@ -1,5 +1,6 @@
+import { adjust, __, merge, append } from "ramda";
+
 import { Training, Word, WordID } from "./interfaces";
-import { adjust, __, merge } from "ramda";
 
 interface StorageData {
   trainings: Training[];
@@ -32,11 +33,11 @@ export class Storage {
   }
 
   addTraining(training: Training) {
-    this.data.trainings.push(training);
+    this.data.trainings = append(training, this.data.trainings);
   }
 
   addWord(word: Word) {
-    this.data.words.push(word);
+    this.data.words = append(word, this.data.words);
   }
 
   updateWord(wordId: WordID, word: Word) {

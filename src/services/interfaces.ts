@@ -8,7 +8,7 @@ export interface Word {
 
 export interface Example {
   example: string;
-  exampleTranslation: string;
+  exampleTranslation?: string;
 }
 
 export interface WordTranslation {

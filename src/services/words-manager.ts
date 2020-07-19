@@ -1,5 +1,7 @@
-import { Word, Example, WordID } from "./interfaces";
 import { generate as generateShortid } from "shortid";
+import { append } from "ramda";
+
+import { Word, Example, WordID } from "./interfaces";
 import { Storage } from "./storage";
 
 export class WordsManager {
@@ -12,14 +14,14 @@ export class WordsManager {
 
   addWord(word: string, translation: string, example?: Example): void {
     const id = generateShortid();
-    this.words.push({
+    this.words = append({
       id,
       word,
       translations: [{
         translation,
         example
       }]
-    });
+    }, this.words);
   }
 
   getWords(): Word[] {

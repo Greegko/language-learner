@@ -1,6 +1,9 @@
 import * as React from 'react';
-import { Training } from './training/training';
+
 import { TrainingManager, WordsManager, Storage } from '../services';
+import { ImportReverso } from '../services/import-reverso';
+
+import { Training } from './training/training';
 
 export const App = () => {
   const storage = new Storage();
@@ -10,6 +13,8 @@ export const App = () => {
   const manager = new TrainingManager(wordsManager);
 
   const session = manager.startNewTraining();
+
+  (window as any).importReverso = new ImportReverso(storage);
 
   return <Training session={session} wordsManager={wordsManager} />;
 };

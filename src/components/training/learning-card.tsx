@@ -20,6 +20,10 @@ export const LearningCard = ({ word, solve, taskType }: TrainingLearnCardParams)
   const refAudioWord = React.useRef<HTMLAudioElement>();
   const refAudioExample = React.useRef<HTMLAudioElement>();
 
+  React.useEffect(() => {
+    refAudioWord.current.play();
+  }, [word]);
+
   const translation = head(word.translations);
   const example = translation.example;
 

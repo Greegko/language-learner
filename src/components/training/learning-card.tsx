@@ -7,7 +7,7 @@ import { Icon } from '../common/icon';
 
 const AUDIO_BASE_URL = "https://voice.reverso.net/RestPronunciation.svc/v1/output=json/GetVoiceStream/voiceName=Bruno22k?inputText=";
 
-const getAudioUrl = (str: string) => AUDIO_BASE_URL + btoa(str);
+const getAudioUrl = (str: string) => AUDIO_BASE_URL + btoa(str.replace('é', 'Ã©'));
 
 interface TrainingLearnCardParams {
   solve(res?: any): void;

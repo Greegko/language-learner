@@ -20,6 +20,11 @@ export const LearningCard = ({ word, solve, taskType }: TrainingLearnCardParams)
   const refAudioWord = React.useRef<HTMLAudioElement>();
   const refAudioExample = React.useRef<HTMLAudioElement>();
 
+  const playSound = (ref: React.RefObject<HTMLAudioElement>) => {
+    ref.current.currentTime = 0;
+    ref.current.play();
+  }
+
   React.useEffect(() => {
     refAudioWord.current.play();
   }, [word]);
@@ -32,16 +37,21 @@ export const LearningCard = ({ word, solve, taskType }: TrainingLearnCardParams)
       <audio src={getAudioUrl(word.word)} ref={refAudioWord} />
       <audio src={getAudioUrl(example.example)} ref={refAudioExample} />
 
-      <h1>{word.word} - {translation.translation}</h1>
-      <span onClick={() => refAudioWord.current.play()}>
-        <Icon icon="speaker" />
-      </span>
+      <h1>{word.word}
+        <span className="play-audio-action" onClick={() => playSound(refAudioWord)}>
+          <Icon icon="speaker" />
+        </span>
+      </h1>
 
-      <h2>{example.example}</h2>
+
+      <h2>{example.example}
+        <span className="play-audio-action" onClick={() => playSound(refAudioExample)}>
+          <Icon icon="speaker" />
+        </span>
+      </h2>
+
       <h2>{example.exampleTranslation}</h2>
-      <span onClick={() => refAudioExample.current.play()}>
-        <Icon icon="speaker" />
-      </span>
+
 
       {taskType === TrainingType.Discovery &&
         <div className='action-buttons'>

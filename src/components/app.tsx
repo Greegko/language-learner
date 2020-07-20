@@ -5,6 +5,7 @@ import { ImportReverso } from '../services/import-reverso';
 
 import { Training } from './training/training';
 
+import './app.scss';
 export const App = () => {
   const storage = new Storage();
   storage.load();

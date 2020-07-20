@@ -17,7 +17,7 @@ export interface WordTranslation {
 }
 
 export enum TrainingType { Discovery, Review };
-export enum ReviewResult { Learned, Easy, Medium, Hard };
+export enum ReviewResult { Easy, Medium, Hard };
 
 interface TrainingRecordBase {
   word: WordID;

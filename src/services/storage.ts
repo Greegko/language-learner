@@ -1,6 +1,6 @@
 import { append } from "ramda";
 
-import { Word, TrainingRecord } from "./interfaces";
+import { Word, TrainingRecord, WordID } from "./interfaces";
 
 interface StorageData {
   trainingRecords: TrainingRecord[];
@@ -26,6 +26,10 @@ export class Storage {
 
   getTrainingRecords(): TrainingRecord[] {
     return this.data.trainingRecords;
+  }
+
+  getWord(wordId: WordID): Word {
+    return this.data.words.find(x => x.id === wordId);
   }
 
   getWords(): Word[] {

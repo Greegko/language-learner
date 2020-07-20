@@ -1,30 +1,29 @@
 import * as React from 'react';
 
-import { TrainingManager } from '../../services';
+import { TrainingManager, TrainingTask } from '../../services';
 
 import { LearningCard } from './learning-card';
-import { Word } from '../../services/interfaces';
 
 interface TrainingParams {
   trainingManager: TrainingManager;
 }
 
 export const Training = ({ trainingManager }: TrainingParams) => {
-  const [activeWord, setActiveWord] = React.useState<Word>(null);
+  const [activeTrainingTask, setActiveTrainingTask] = React.useState<TrainingTask>(null);
 
   React.useEffect(() => {
-    setActiveWord(trainingManager.activeTask.word);
+    setActiveTrainingTask(trainingManager.activeTask);
   }, []);
 
-  const solve = () => {
-    trainingManager.solveActiveTask();
+  const solve = (res: any) => {
+    trainingManager.solveActiveTask(res);
 
-    setActiveWord(trainingManager.activeTask.word);
+    setActiveTrainingTask(trainingManager.activeTask);
   }
 
-  if (!activeWord) {
+  if (!activeTrainingTask) {
     return <div>No remaining words!</div>;
   }
 
-  return <LearningCard solve={solve} word={activeWord} />;
+  return <LearningCard solve={solve} word={activeTrainingTask.word} taskType={activeTrainingTask.trainingType} />;
 }

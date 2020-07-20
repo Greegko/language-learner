@@ -1,6 +1,6 @@
-import { head, groupBy, map, pipe, sortBy, prop, last, reverse } from "ramda";
+import { head, groupBy, map, pipe, sortBy, prop, last, reverse, toPairs, takeLastWhile } from "ramda";
 
-import { TrainingType, Word, TrainingRecord, ReviewResult } from "./interfaces";
+import { TrainingType, Word, TrainingRecord, ReviewResult, TrainingReviewRecord } from "./interfaces";
 import { Storage } from "./storage";
 
 export type TrainingTask = { word: Word, trainingType: TrainingType };
@@ -34,12 +34,14 @@ export class TrainingManager {
 
     const currentTick = records.length;
 
-    const nextInQueue = pipe(
+    const queueList = pipe(
       groupBy<TrainingRecord>(x => x.word),
       map(this.tickSchedule) as any,
-      sortBy(prop(1 as any)) as any,
-      head
-    )(records) as [string, number];
+      toPairs,
+      sortBy(prop(1 as any)) as any
+    )(records) as [string, number][];
+
+    const nextInQueue = head(queueList);
 
     if (nextInQueue && nextInQueue[1] < currentTick) {
       return {
@@ -64,7 +66,8 @@ export class TrainingManager {
 
     if (lastRecord.type === TrainingType.Review) {
       if (lastRecord.result === ReviewResult.Easy) {
-        return lastRecord.tick + 50;
+        const score = takeLastWhile((x: TrainingReviewRecord) => x.result === ReviewResult.Easy, records as any);
+        return lastRecord.tick + (score.length * 50);
       }
 
       if (lastRecord.result === ReviewResult.Medium) {

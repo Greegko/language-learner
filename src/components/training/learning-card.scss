@@ -1,7 +1,12 @@
-.action-learn {
-  margin: 0 auto;
-  border: 1px solid blue;
-  background-color: lightblue;
-  padding: 15px;
-  text-align: center;
+.action-buttons {
+  display: flex;
+
+  .action-button {
+    flex: 1;
+    margin: 0 5px;
+    border: 1px solid blue;
+    background-color: lightblue;
+    padding: 15px;
+    text-align: center;
+  }
 }

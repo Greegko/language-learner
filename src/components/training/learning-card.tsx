@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { head } from 'ramda';
 
-import { Word } from '../../services/interfaces';
+import { Word, TrainingType, ReviewResult } from '../../services/interfaces';
 
 import { Icon } from '../common/icon';
 
@@ -10,12 +10,13 @@ const AUDIO_BASE_URL = "https://voice.reverso.net/RestPronunciation.svc/v1/outpu
 const getAudioUrl = (str: string) => AUDIO_BASE_URL + btoa(str);
 
 interface TrainingLearnCardParams {
-  solve(): void;
+  solve(res?: any): void;
   word: Word;
+  taskType: TrainingType;
 }
 
 import './learning-card.scss';
-export const LearningCard = ({ word, solve }: TrainingLearnCardParams) => {
+export const LearningCard = ({ word, solve, taskType }: TrainingLearnCardParams) => {
   const refAudioWord = React.useRef<HTMLAudioElement>();
   const refAudioExample = React.useRef<HTMLAudioElement>();
 
@@ -38,7 +39,20 @@ export const LearningCard = ({ word, solve }: TrainingLearnCardParams) => {
         <Icon icon="speaker" />
       </span>
 
-      <div className="action-learn" onClick={solve}>I understand</div>
+      {taskType === TrainingType.Discovery &&
+        <div className='action-buttons'>
+          <div className="action-button" onClick={solve}>I understand</div>
+        </div>
+      }
+
+      {taskType === TrainingType.Review &&
+        <div className='action-buttons'>
+          <div className="action-button" onClick={() => solve(ReviewResult.Easy)}>Easy</div>
+          <div className="action-button" onClick={() => solve(ReviewResult.Medium)}>Medium</div>
+          <div className="action-button" onClick={() => solve(ReviewResult.Hard)}>Hard</div>
+        </div>
+      }
+
     </div>
   );
 }

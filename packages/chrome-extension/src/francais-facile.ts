@@ -1,18 +1,25 @@
 const JUMP_S = 2;
 
-function updatePlaytime(diff: number) {
-  const element = document.getElementsByTagName('audio')[0] as HTMLMediaElement;
-  element.currentTime += diff;
-}
 
 function keyboardEvent(event: KeyboardEvent) {
-  if (event.code === 'ArrowLeft') {
-    updatePlaytime(-JUMP_S);
+  const audio = document.getElementsByTagName('audio')[0] as HTMLMediaElement;
+
+  switch (event.code) {
+    case "ArrowLeft":
+      audio.currentTime -= JUMP_S;
+      break;
+
+    case "ArrowRight":
+      audio.currentTime += JUMP_S;
+      break;
+    case "Space":
+      audio.paused ? audio.play() : audio.pause();
+      break;
+    default:
+      return;
   }
 
-  if (event.code === 'ArrowRight') {
-    updatePlaytime(JUMP_S);
-  }
+  event.preventDefault();
 }
 
 document.body.addEventListener('keydown', keyboardEvent);

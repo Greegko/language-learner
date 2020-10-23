@@ -1,0 +1,15 @@
+{
+  "manifest_version": 2,
+  "name": "Language Learner Extension",
+  "version": "0.0.1",
+  "content_scripts": [
+    {
+      "matches": [
+        "https://savoirs.rfi.fr/fr/apprendre-enseigner/langue-francaise/journal-en-francais-facile-*"
+      ],
+      "js": [
+        "francais-facile.js"
+      ]
+    }
+  ]
+}

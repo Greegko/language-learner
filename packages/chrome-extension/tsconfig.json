@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "outDir": "../../dist/chrome-extension",
+    "sourceMap": true,
+    "noImplicitAny": true,
+    "module": "commonjs",
+    "target": "esnext"
+  },
+  "include": [
+    "src/*"
+  ]
+}

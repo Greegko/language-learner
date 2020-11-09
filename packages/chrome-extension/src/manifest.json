@@ -5,10 +5,11 @@
   "content_scripts": [
     {
       "matches": [
-        "https://savoirs.rfi.fr/fr/apprendre-enseigner/langue-francaise/journal-en-francais-facile-*"
+        "https://savoirs.rfi.fr/fr/apprendre-enseigner/langue-francaise/journal-en-francais-facile-*",
+        "https://www.rts.ch/play/tv/19h30/video/*"
       ],
       "js": [
-        "francais-facile.js"
+        "media.js"
       ]
     }
   ]

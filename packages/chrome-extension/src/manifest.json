@@ -6,7 +6,7 @@
     {
       "matches": [
         "https://savoirs.rfi.fr/fr/apprendre-enseigner/langue-francaise/journal-en-francais-facile-*",
-        "https://www.rts.ch/play/tv/19h30/video/*"
+        "https://www.rts.ch/*"
       ],
       "js": [
         "media.js"

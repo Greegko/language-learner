@@ -1,5 +1,4 @@
-import * as React from 'react';
-
+import { useEffect, useState } from 'react';
 import { TrainingManager, TrainingTask } from '../../services';
 
 import { LearningCard } from './learning-card';
@@ -9,9 +8,9 @@ interface TrainingParams {
 }
 
 export const Training = ({ trainingManager }: TrainingParams) => {
-  const [activeTrainingTask, setActiveTrainingTask] = React.useState<TrainingTask>(null);
+  const [activeTrainingTask, setActiveTrainingTask] = useState<TrainingTask>(null);
 
-  React.useEffect(() => {
+  useEffect(() => {
     setActiveTrainingTask(trainingManager.activeTask);
   }, []);
 

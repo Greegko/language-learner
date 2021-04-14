@@ -1,5 +1,3 @@
-import * as React from 'react';
-
 import { TrainingManager, Storage } from '../services';
 import { ImportReverso } from '../services/import-reverso';
 

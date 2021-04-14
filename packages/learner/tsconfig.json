@@ -4,7 +4,11 @@
     "noImplicitAny": true,
     "module": "commonjs",
     "target": "esnext",
-    "jsx": "react"
+    "jsx": "react-jsx",
+    "isolatedModules": true,
+    "typeRoots": [
+      "./node_modules/@types"
+    ]
   },
   "include": [
     "src/*"

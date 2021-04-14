@@ -1,5 +1,5 @@
-import * as React from 'react';
 import { head } from 'ramda';
+import { RefObject, useEffect, useRef } from 'react';
 
 import { Word, TrainingType, ReviewResult } from '../../services/interfaces';
 
@@ -17,15 +17,15 @@ interface TrainingLearnCardParams {
 
 import './learning-card.scss';
 export const LearningCard = ({ word, solve, taskType }: TrainingLearnCardParams) => {
-  const refAudioWord = React.useRef<HTMLAudioElement>();
-  const refAudioExample = React.useRef<HTMLAudioElement>();
+  const refAudioWord = useRef<HTMLAudioElement>();
+  const refAudioExample = useRef<HTMLAudioElement>();
 
-  const playSound = (ref: React.RefObject<HTMLAudioElement>) => {
+  const playSound = (ref: RefObject<HTMLAudioElement>) => {
     ref.current.currentTime = 0;
     ref.current.play();
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     refAudioWord.current.play();
   }, [word]);
 

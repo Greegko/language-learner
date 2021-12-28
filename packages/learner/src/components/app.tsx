@@ -1,9 +1,12 @@
-import { TrainingManager, Storage } from '../services';
-import { ImportReverso } from '../services/import-reverso';
+import { Route, Routes } from "react-router-dom";
 
-import { Training } from './training/training';
+import { TrainingManager, Storage } from "../services";
+import { ImportReverso } from "../services/import-reverso";
 
-import './app.scss';
+import { Training } from "./training/training";
+import { Dictionary } from "./dictionary/dictionary";
+
+import "./app.scss";
 export const App = () => {
   const storage = new Storage();
   storage.load();
@@ -12,5 +15,10 @@ export const App = () => {
 
   (window as any).importReverso = new ImportReverso(storage);
 
-  return <Training trainingManager={manager} />;
+  return (
+    <Routes>
+      <Route path="/dictionary" element={<Dictionary />}></Route>
+      <Route path="/" element={<Training trainingManager={manager} />}></Route>
+    </Routes>
+  );
 };

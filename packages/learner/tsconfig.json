@@ -5,6 +5,7 @@
     "module": "commonjs",
     "target": "esnext",
     "jsx": "react-jsx",
+    "resolveJsonModule": true,
     "isolatedModules": true,
     "typeRoots": [
       "./node_modules/@types"

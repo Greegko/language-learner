@@ -9,6 +9,10 @@ module.exports = {
     extensions: [".ts", ".tsx", ".js"]
   },
 
+  devServer: {
+    historyApiFallback: true,
+  },
+
   module: {
     rules: [
       {
@@ -33,14 +37,7 @@ module.exports = {
           'css-loader',
           'sass-loader',
         ],
-      },
-      {
-        test: /\.css$/i,
-        use: [
-          'style-loader',
-          'css-loader',
-        ],
-      },
+      }
     ]
   },
 

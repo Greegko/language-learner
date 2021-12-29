@@ -25,48 +25,45 @@ export const LearningCard = ({ word, solve, taskType }: TrainingLearnCardParams)
     ref.current.play();
   }
 
-  useEffect(() => {
-    refAudioWord.current.play();
-  }, [word]);
-
   const translation = head(word.translations);
   const example = translation.example;
 
   return (
-    <div>
+    <div className="training-card">
       <audio src={getAudioUrl(word.word)} ref={refAudioWord} />
       <audio src={getAudioUrl(example.example)} ref={refAudioExample} />
 
-      <h1>{word.word}
-        <span className="play-audio-action" onClick={() => playSound(refAudioWord)}>
-          <Icon icon="speaker" />
-        </span>
-      </h1>
+      <div className='header'>
+        <Level />
+      </div>
 
-
-      <h2>{example.example}
-        <span className="play-audio-action" onClick={() => playSound(refAudioExample)}>
-          <Icon icon="speaker" />
-        </span>
-      </h2>
-
-      <h2>{example.exampleTranslation}</h2>
-
-
-      {taskType === TrainingType.Discovery &&
-        <div className='action-buttons'>
-          <div className="action-button" onClick={solve}>I understand</div>
+      <div className='content'>
+        <div className='task'>
+          <input className='text-input' />
         </div>
-      }
+      </div>
 
-      {taskType === TrainingType.Review &&
-        <div className='action-buttons'>
-          <div className="action-button" onClick={() => solve(ReviewResult.Easy)}>Easy</div>
-          <div className="action-button" onClick={() => solve(ReviewResult.Medium)}>Medium</div>
-          <div className="action-button" onClick={() => solve(ReviewResult.Hard)}>Hard</div>
-        </div>
-      }
+      <div className='footer'>
+          {word.translations[0].translation}
+      </div>
+    </div>
+  );
+}
 
+function Level() {
+  return (
+    <div className='level'>
+      <span className='rating rating-1'>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+      </span>
+
+      <span className='rating-text'>
+        New word
+      </span>
     </div>
   );
 }

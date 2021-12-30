@@ -5,7 +5,9 @@
   "author": "Greegko <greegko+dev@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "webpack-cli serve"
+    "build": "webpack",
+    "start": "webpack-cli serve",
+    "deploy": "git subtree push --prefix dist origin gh-pages"
   },
   "dependencies": {
     "css-loader": "6.5.1",

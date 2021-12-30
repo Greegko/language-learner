@@ -2,8 +2,8 @@ import { Route, Routes } from "react-router-dom";
 
 import { TrainingManager, Storage } from "../services";
 
-import { Training } from "./training/training";
-import { Deck } from "./deck/deck";
+import { TrainingPage } from "./training/training";
+import { DeckPage } from "./deck/deck";
 
 import "./app.scss";
 export const App = () => {
@@ -12,10 +12,16 @@ export const App = () => {
 
   const manager = new TrainingManager(storage);
 
+  const deck = storage.getAvailableDecks()[0];
+
+  if(deck) {
+    manager.setActiveDeck(deck.id);
+  }
+
   return (
     <Routes>
-      <Route path="/deck" element={<Deck />}></Route>
-      <Route path="/" element={<Training trainingManager={manager} />}></Route>
+      <Route path="/deck" element={<DeckPage storage={storage} />}></Route>
+      <Route path="/" element={<TrainingPage trainingManager={manager} />}></Route>
     </Routes>
   );
 };

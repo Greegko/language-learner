@@ -1,4 +1,4 @@
-import { head, groupBy, map, pipe, sortBy, prop, last, reverse, toPairs, takeLastWhile } from "ramda";
+import { head, groupBy, map, pipe, sortBy, prop, reverse, toPairs, takeLastWhile } from "ramda";
 
 import { Word, TrainingRecord, TrainingRecordType, DeckID } from "./interfaces";
 import { Storage } from "./storage";
@@ -33,7 +33,7 @@ export class TrainingManager {
   }
 
   setActiveDeck(deckId: DeckID) {
-
+    this.activeDeck = deckId;
   }
 
   getNextTask(): TrainingTask {

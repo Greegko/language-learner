@@ -1,4 +1,6 @@
+import * as shortid from "shortid";
 import { append, values } from "ramda";
+
 
 import { Word, TrainingRecord, WordID, Deck, DeckID } from "./interfaces";
 
@@ -44,8 +46,22 @@ export class Storage {
     this.data.decks[deckId].trainingRecords = append(trainingRecord, this.data.decks[deckId].trainingRecords);
   }
 
-  addWord(word: Word) {
+  addWord(deckId: DeckID, word: Word) {
     this.data.words[word.id] = word;
+    this.data.decks[deckId].words = append(word.id, this.data.decks[deckId].words);
+  }
+
+  addDeck(name: string): Deck {
+    const deck = {
+      id: shortid(),
+      name,
+      words: [],
+      trainingRecords: []
+    } as Deck;
+
+    this.data.decks[deck.id] = deck;
+
+    return deck;
   }
 
 } 

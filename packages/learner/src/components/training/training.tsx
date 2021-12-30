@@ -3,11 +3,11 @@ import { TrainingManager, TrainingTask } from '../../services';
 
 import { LearningCard } from './learning-card';
 
-interface TrainingParams {
+interface TrainingPageParams {
   trainingManager: TrainingManager;
 }
 
-export const Training = ({ trainingManager }: TrainingParams) => {
+export const TrainingPage = ({ trainingManager }: TrainingPageParams) => {
   const [activeTrainingTask, setActiveTrainingTask] = useState<TrainingTask>(null);
   const [showResult, setShowResult] = useState<boolean>(null);
   const [hint, setHint] = useState<string>('');

@@ -10,6 +10,7 @@ export type DeckID = string;
 
 export type Deck = {
   id: DeckID;
+  name: string;
   trainingRecords: TrainingRecord[];
   words: WordID[]
 }

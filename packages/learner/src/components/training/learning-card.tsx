@@ -1,37 +1,53 @@
-import { head } from 'ramda';
-import { RefObject, useEffect, useRef } from 'react';
+import { useCallback, KeyboardEvent, createRef, useEffect, useRef, RefObject } from 'react';
 
-import { Word, TrainingType, ReviewResult } from '../../services/interfaces';
-
-import { Icon } from '../common/icon';
+import { Word } from '../../services/interfaces';
 
 const AUDIO_BASE_URL = "https://voice.reverso.net/RestPronunciation.svc/v1/output=json/GetVoiceStream/voiceName=Bruno22k?inputText=";
-
 const getAudioUrl = (str: string) => AUDIO_BASE_URL + btoa(str.replace('é', 'Ã©'));
 
 interface TrainingLearnCardParams {
-  solve(res?: any): void;
+  solveAction(solution: string): void;
+  nextWordAction(): void;
   word: Word;
-  taskType: TrainingType;
+  showResult: boolean;
+  hint: string;
 }
 
 import './learning-card.scss';
-export const LearningCard = ({ word, solve, taskType }: TrainingLearnCardParams) => {
+export const LearningCard = ({ word, showResult, hint, solveAction, nextWordAction }: TrainingLearnCardParams) => {
+  const inputRef = useRef<HTMLInputElement>();
   const refAudioWord = useRef<HTMLAudioElement>();
-  const refAudioExample = useRef<HTMLAudioElement>();
 
   const playSound = (ref: RefObject<HTMLAudioElement>) => {
     ref.current.currentTime = 0;
     ref.current.play();
   }
 
-  const translation = head(word.translations);
-  const example = translation.example;
+  const handleEnter = useCallback((event: KeyboardEvent<HTMLInputElement>) => {
+    if(event.code === 'Enter' || event.code === "NumpadEnter") {
+      const value = inputRef.current.value;
+      inputRef.current.value = '';
+      if(showResult) {
+        nextWordAction();
+      } else {
+        solveAction(value);
+      }
+    }
+  }, [word, showResult, hint]);
+
+  useEffect(() => {
+    if(showResult) {
+      playSound(refAudioWord);
+    }
+  }, [showResult]);
+
+  useEffect(() => {
+    inputRef.current.focus();
+  }, [hint, word]);
 
   return (
-    <div className="training-card">
+    <div className="training-card" onKeyPress={handleEnter}>
       <audio src={getAudioUrl(word.word)} ref={refAudioWord} />
-      <audio src={getAudioUrl(example.example)} ref={refAudioExample} />
 
       <div className='header'>
         <Level />
@@ -39,7 +55,8 @@ export const LearningCard = ({ word, solve, taskType }: TrainingLearnCardParams)
 
       <div className='content'>
         <div className='task'>
-          <input className='text-input' />
+          {showResult && <span className='word'>{word.word}</span>}
+          {!showResult && <input ref={inputRef} className='text-input' placeholder={hint} />}
         </div>
       </div>
 

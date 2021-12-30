@@ -1,31 +1,32 @@
 import { head, groupBy, map, pipe, sortBy, prop, last, reverse, toPairs, takeLastWhile } from "ramda";
 
-import { TrainingType, Word, TrainingRecord, ReviewResult, TrainingReviewRecord } from "./interfaces";
+import { Word, TrainingRecord, TrainingRecordType } from "./interfaces";
 import { Storage } from "./storage";
 
-export type TrainingTask = { word: Word, trainingType: TrainingType };
+export type TrainingTask = { word: Word, level: number };
 
 export class TrainingManager {
 
   constructor(private storage: Storage) { }
 
-  solveActiveTask(result?: any): void {
-    const task = this.activeTask;
-    if (task.trainingType === TrainingType.Discovery) {
+  solveTask(trainingTask: TrainingTask, solution: string): boolean {
+    if(trainingTask.word.word === solution) {
       this.storage.addTrainingRecord({
-        word: task.word.id,
+        wordId: trainingTask.word.id,
         date: new Date(),
-        type: TrainingType.Discovery
+        type: TrainingRecordType.Success
       });
-    }
 
-    if (task.trainingType === TrainingType.Review) {
+      return true;
+    } else {
       this.storage.addTrainingRecord({
-        word: task.word.id,
+        wordId: trainingTask.word.id,
         date: new Date(),
-        type: TrainingType.Review,
-        result
-      })
+        type: TrainingRecordType.Attempt,
+        attempt: solution
+      });
+
+      return false;
     }
   }
 
@@ -35,54 +36,45 @@ export class TrainingManager {
     const currentTick = records.length;
 
     const queueList = pipe(
-      groupBy<TrainingRecord>(x => x.word),
-      map(this.tickSchedule) as any,
+      groupBy<TrainingRecord>(x => x.wordId),
+      map(this.calculateLevel) as any,
+      map(this.calculateTick(currentTick)) as any,
       toPairs,
       sortBy(prop(1 as any)) as any
-    )(records) as [string, number][];
+    )(records) as [WordID: string, tick: number][];
 
     const nextInQueue = head(queueList);
 
     if (nextInQueue && nextInQueue[1] < currentTick) {
       return {
         word: this.storage.getWord(nextInQueue[0]),
-        trainingType: TrainingType.Review
+        level: 1
       };
     }
 
     return {
       word: this.nextNewWord,
-      trainingType: TrainingType.Discovery
+      level: 1
     }
 
   }
 
-  private tickSchedule(records: (TrainingRecord & { tick: number })[]) {
-    const lastRecord = last(records);
+  private calculateTick(currentTick: number) {
+    return (level: number) => {
+      if(level === 5) return Infinity;
 
-    if (lastRecord.type === TrainingType.Discovery) {
-      return lastRecord.tick + 3;
-    }
+      return currentTick + level * 10;
+    } 
+  }
 
-    if (lastRecord.type === TrainingType.Review) {
-      if (lastRecord.result === ReviewResult.Easy) {
-        const score = takeLastWhile((x: TrainingReviewRecord) => x.result === ReviewResult.Easy, records as any);
-        return lastRecord.tick + (score.length * 50);
-      }
-
-      if (lastRecord.result === ReviewResult.Medium) {
-        return lastRecord.tick + 10;
-      }
-
-      if (lastRecord.result === ReviewResult.Hard) {
-        return lastRecord.tick + 3;
-      }
-    };
+  private calculateLevel(records: TrainingRecord[]) {
+    if(records.length === 1 && records[0].type === TrainingRecordType.Success) return 5;
+    return takeLastWhile((x: TrainingRecord) => x.type === TrainingRecordType.Success, records).length;
   }
 
   private get nextNewWord(): Word {
     const trainingRecords = this.storage.getTrainingRecords();
-    const groupedById = groupBy<TrainingRecord>(x => x.word, trainingRecords);
+    const groupedById = groupBy<TrainingRecord>(x => x.wordId, trainingRecords);
 
     for (let word of reverse(this.storage.getWords())) {
       if (!(word.id in groupedById)) {

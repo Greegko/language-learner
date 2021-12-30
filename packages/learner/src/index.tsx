@@ -5,7 +5,7 @@ import { BrowserRouter } from "react-router-dom";
 
 const body = document.getElementById('app');
 render(
-  <BrowserRouter basename='/language-learner'>
+  <BrowserRouter>
     <App />
   </BrowserRouter>
   ,

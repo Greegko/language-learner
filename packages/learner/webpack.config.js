@@ -1,17 +1,14 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
-  mode: "development",
-
-  devtool: "source-map",
+  mode: "production",
 
   resolve: {
     extensions: [".ts", ".tsx", ".js"]
   },
 
-  devServer: {
-    historyApiFallback: true,
-  },
+  devtool: false,
 
   module: {
     rules: [
@@ -44,6 +41,11 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: './src/index.html'
-    })
+    }),
+    new CopyPlugin({
+      patterns: [
+        { from: "./src/404.html", to: "./404.html" }
+      ]
+    }),
   ]
 };

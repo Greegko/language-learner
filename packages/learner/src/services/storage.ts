@@ -1,10 +1,10 @@
-import { append } from "ramda";
+import { append, values } from "ramda";
 
-import { Word, TrainingRecord, WordID } from "./interfaces";
+import { Word, TrainingRecord, WordID, Deck, DeckID } from "./interfaces";
 
 interface StorageData {
-  trainingRecords: TrainingRecord[];
-  words: Word[];
+  words: Record<WordID, Word>;
+  decks: Record<DeckID, Deck>;
 }
 
 export class Storage {
@@ -20,28 +20,32 @@ export class Storage {
     if (parsedData) {
       this.data = parsedData;
     } else {
-      this.data = { trainingRecords: [], words: [] };
+      this.data = { decks: {}, words: {} };
     }
   }
 
-  getTrainingRecords(): TrainingRecord[] {
-    return this.data.trainingRecords;
+  getDeck(deckId: DeckID): Deck {
+    return this.data.decks[deckId];
+  }
+
+  getAvailableDecks(): Deck[] {
+    return values(this.data.decks);
   }
 
   getWord(wordId: WordID): Word {
-    return this.data.words.find(x => x.id === wordId);
+    return this.data.words[wordId];
   }
 
   getWords(): Word[] {
-    return this.data.words;
+    return values(this.data.words);
   }
 
-  addTrainingRecord(trainingRecord: TrainingRecord) {
-    this.data.trainingRecords = append(trainingRecord, this.data.trainingRecords);
+  addTrainingRecord(deckId: DeckID, trainingRecord: TrainingRecord) {
+    this.data.decks[deckId].trainingRecords = append(trainingRecord, this.data.decks[deckId].trainingRecords);
   }
 
   addWord(word: Word) {
-    this.data.words = append(word, this.data.words);
+    this.data.words[word.id] = word;
   }
 
 } 

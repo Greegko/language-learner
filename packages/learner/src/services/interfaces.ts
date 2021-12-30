@@ -6,6 +6,14 @@ export interface Word {
   translations: WordTranslation[];
 }
 
+export type DeckID = string;
+
+export type Deck = {
+  id: DeckID;
+  trainingRecords: TrainingRecord[];
+  words: WordID[]
+}
+
 export interface Example {
   example: string;
   exampleTranslation?: string;

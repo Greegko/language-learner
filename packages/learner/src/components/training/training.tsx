@@ -13,7 +13,9 @@ export const Training = ({ trainingManager }: TrainingParams) => {
   const [hint, setHint] = useState<string>('');
 
   useEffect(() => {
-    setActiveTrainingTask(trainingManager.activeTask);
+    if(trainingManager.activeDeck){
+      setActiveTrainingTask(trainingManager.getNextTask());
+    }
   }, []);
 
   const solveAction = useCallback((solution: string) => {
@@ -33,8 +35,12 @@ export const Training = ({ trainingManager }: TrainingParams) => {
   const getNewTask = useCallback(() => {
     setShowResult(false);
     setHint('');
-    setActiveTrainingTask(trainingManager.activeTask);
-  }, [trainingManager.activeTask])
+    setActiveTrainingTask(trainingManager.getNextTask());
+  }, [trainingManager.activeDeck])
+
+  if (!trainingManager.activeDeck) {
+    return <div>No deck selected!</div>;
+  }
 
   if (!activeTrainingTask) {
     return <div>No remaining words!</div>;

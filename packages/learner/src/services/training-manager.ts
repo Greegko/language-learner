@@ -1,6 +1,6 @@
 import { head, groupBy, map, pipe, sortBy, prop, last, reverse, toPairs, takeLastWhile } from "ramda";
 
-import { Word, TrainingRecord, TrainingRecordType } from "./interfaces";
+import { Word, TrainingRecord, TrainingRecordType, DeckID } from "./interfaces";
 import { Storage } from "./storage";
 
 export type TrainingTask = { word: Word, level: number };
@@ -9,9 +9,11 @@ export class TrainingManager {
 
   constructor(private storage: Storage) { }
 
+  activeDeck: DeckID;
+
   solveTask(trainingTask: TrainingTask, solution: string): boolean {
     if(trainingTask.word.word === solution) {
-      this.storage.addTrainingRecord({
+      this.storage.addTrainingRecord(this.activeDeck, {
         wordId: trainingTask.word.id,
         date: new Date(),
         type: TrainingRecordType.Success
@@ -19,7 +21,7 @@ export class TrainingManager {
 
       return true;
     } else {
-      this.storage.addTrainingRecord({
+      this.storage.addTrainingRecord(this.activeDeck, {
         wordId: trainingTask.word.id,
         date: new Date(),
         type: TrainingRecordType.Attempt,
@@ -30,8 +32,12 @@ export class TrainingManager {
     }
   }
 
-  get activeTask(): TrainingTask {
-    const records = this.storage.getTrainingRecords().map((x, index) => ({ ...x, tick: index }));
+  setActiveDeck(deckId: DeckID) {
+
+  }
+
+  getNextTask(): TrainingTask {
+    const records = this.storage.getDeck(this.activeDeck).trainingRecords.map((x, index) => ({ ...x, tick: index }));
 
     const currentTick = records.length;
 
@@ -73,7 +79,7 @@ export class TrainingManager {
   }
 
   private get nextNewWord(): Word {
-    const trainingRecords = this.storage.getTrainingRecords();
+    const trainingRecords = this.storage.getDeck(this.activeDeck).trainingRecords;
     const groupedById = groupBy<TrainingRecord>(x => x.wordId, trainingRecords);
 
     for (let word of reverse(this.storage.getWords())) {

@@ -6,13 +6,11 @@
   "license": "MIT",
   "scripts": {
     "build": "webpack",
-    "start": "webpack-cli serve --config webpack-dev.config.js",
-    "deploy": "gh-pages -d dist"
+    "start": "webpack-cli serve --config webpack-dev.config.js"
   },
   "dependencies": {
     "copy-webpack-plugin": "10.2.0",
     "css-loader": "6.5.1",
-    "gh-pages": "3.2.3",
     "html-webpack-plugin": "5.5.0",
     "node-sass": "7.0.1",
     "prettier": "^2.5.1",

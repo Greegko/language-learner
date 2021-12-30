@@ -19,7 +19,7 @@ export const App = () => {
   }
 
   return (
-    <Routes>
+    <Routes basename={'/language-learner'}>
       <Route path="/deck" element={<DeckPage storage={storage} />}></Route>
       <Route path="/" element={<TrainingPage trainingManager={manager} />}></Route>
     </Routes>
